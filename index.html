@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="浏览 500 组英汉平行语料，观察英语名词概念如何转化为中文动词。">
+  <meta name="color-scheme" content="light dark">
+  <title>NVAtlas — 名词化为动词</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23211f1a'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia' font-size='20' fill='%23f3eee4'%3ENV%3C/text%3E%3C/svg%3E">
+  <script>
+    (() => {
+      const saved = localStorage.getItem("nvatlas-theme");
+      const savedLanguage = localStorage.getItem("nvatlas-language");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme = saved || (prefersDark ? "dark" : "light");
+      document.documentElement.dataset.language = savedLanguage === "en" ? "en" : "zh";
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content" data-i18n="skip">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="NVAtlas 首页" data-i18n-aria="brand.home">
+        <span class="brand-mark" aria-hidden="true">NV</span>
+        <span class="brand-word">Atlas</span>
+      </a>
+
+      <nav class="site-nav" aria-label="主导航" data-i18n-aria="nav.label">
+        <a href="#explore" data-i18n="nav.explore">探索</a>
+        <a href="#patterns" data-i18n="nav.patterns">模式</a>
+        <a href="#about" data-i18n="nav.about">关于</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="language-toggle" role="group" aria-label="选择界面语言" data-i18n-aria="language.label">
+          <button class="language-option" type="button" data-language-choice="zh" aria-pressed="true">中</button>
+          <button class="language-option" type="button" data-language-choice="en" aria-pressed="false">EN</button>
+        </div>
+
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换到深色主题">
+          <span class="theme-symbol" aria-hidden="true">◐</span>
+          <span class="theme-label" data-i18n="theme.label">主题</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="hero.eyebrow">平行语料 · 英文 / 中文</p>
+        <h1 id="hero-title" data-i18n="hero.title">英语给出一个名词，中文让动作显形。</h1>
+        <p class="hero-intro" data-i18n="hero.intro">
+          一部细读式平行语料图谱。收录 500 组对白，追踪英语名词概念如何在中文翻译中转化为动词。
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#explore" data-i18n="hero.explore">浏览语料</a>
+          <a class="text-link" href="#about"><span data-i18n="hero.method">阅读方法</span> <span aria-hidden="true">↘</span></a>
+        </div>
+      </div>
+
+      <aside class="featured-shift" aria-labelledby="featured-title">
+        <div class="folio-number" aria-hidden="true">00</div>
+        <p class="eyebrow" id="featured-title" data-i18n="featured.title">一个高频转换</p>
+        <div class="featured-pair" id="featured-pair" hidden>
+          <p class="featured-noun" id="featured-noun"></p>
+          <p class="featured-arrow" aria-hidden="true" data-i18n="featured.arrow">转化为</p>
+          <p class="featured-verb" id="featured-verb" lang="zh-Hans"></p>
+        </div>
+        <blockquote class="featured-quote" id="featured-quote" hidden>
+          <p id="featured-english" lang="en"></p>
+          <p id="featured-chinese" lang="zh"></p>
+        </blockquote>
+        <p class="featured-caption" id="featured-caption" data-i18n="featured.loading">正在读取语料中最常见的转换。</p>
+      </aside>
+
+      <dl class="hero-stats" aria-label="语料总量" data-i18n-aria="stats.label">
+        <div>
+          <dt data-i18n="stats.records">对白条目</dt>
+          <dd id="stat-records">—</dd>
+        </div>
+        <div>
+          <dt data-i18n="stats.nouns">英语名词</dt>
+          <dd id="stat-nouns">—</dd>
+        </div>
+        <div>
+          <dt data-i18n="stats.verbs">中文动词</dt>
+          <dd id="stat-verbs">—</dd>
+        </div>
+        <div>
+          <dt data-i18n="stats.patterns">名动模式</dt>
+          <dd id="stat-patterns">—</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="site-section" id="explore" aria-labelledby="explore-title">
+      <div class="section-heading">
+        <p class="eyebrow" data-i18n="explore.eyebrow">01 / 语料浏览</p>
+        <div>
+          <h2 id="explore-title" data-i18n="explore.title">在语境中，看清名词与动作的流转。</h2>
+          <p data-i18n="explore.intro">可搜索英汉任一语言，按英语名词追踪概念，或直接定位中文动词。</p>
+        </div>
+      </div>
+
+      <div class="explorer-shell">
+        <form class="filters" id="filters" role="search" aria-label="筛选语料" data-i18n-aria="filters.label">
+          <div class="field search-field">
+            <label for="search-input" data-i18n="search.label">搜索记录</label>
+            <div class="search-control">
+              <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="10.8" cy="10.8" r="6.4"></circle>
+                <path d="m15.5 15.5 4 4"></path>
+              </svg>
+              <input
+                id="search-input"
+                name="q"
+                type="search"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="试试：认罪、attention、confession"
+                aria-describedby="search-help"
+                data-i18n-placeholder="search.placeholder"
+              >
+              <kbd aria-hidden="true">/</kbd>
+            </div>
+            <p class="field-help" id="search-help" data-i18n="search.help">可搜索英汉文本及记录 ID。</p>
+          </div>
+
+          <div class="field">
+            <label for="noun-filter" data-i18n="filter.noun">英语名词</label>
+            <select id="noun-filter" name="noun" disabled>
+              <option value="" data-i18n="filter.allNouns">全部名词</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="verb-filter" data-i18n="filter.verb">中文动词</label>
+            <select id="verb-filter" name="verb" disabled>
+              <option value="" data-i18n="filter.allVerbs">全部动词</option>
+            </select>
+          </div>
+        </form>
+
+        <div class="results-toolbar">
+          <p class="result-summary" id="result-summary" aria-live="polite" aria-atomic="true" data-i18n="results.loading">正在加载语料…</p>
+          <div class="active-filters" id="active-filters" aria-label="当前筛选条件" data-i18n-aria="filters.active"></div>
+          <button class="clear-button" id="clear-filters" type="button" disabled data-i18n="filters.clear">清除筛选</button>
+        </div>
+
+        <div class="data-message" id="data-error" role="alert" hidden></div>
+        <div class="results-list" id="results" aria-busy="true">
+          <div class="loading-entry" aria-hidden="true"></div>
+          <div class="loading-entry" aria-hidden="true"></div>
+          <div class="loading-entry" aria-hidden="true"></div>
+        </div>
+
+        <div class="load-more-wrap">
+          <button class="button load-more" id="load-more" type="button" hidden data-i18n="results.loadMore">再载入 30 条记录</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-section patterns-section" id="patterns" aria-labelledby="patterns-title">
+      <div class="section-heading">
+        <p class="eyebrow" data-i18n="patterns.eyebrow">02 / 模式</p>
+        <div>
+          <h2 id="patterns-title" data-i18n="patterns.title">看见哪些表达汇聚在中心。</h2>
+          <p data-i18n="patterns.intro">最强的信号并不来自例外，而是反复出现的表达习惯。</p>
+        </div>
+      </div>
+
+      <div class="pattern-note">
+        <p id="pattern-summary" data-i18n="patterns.summary">频次按语料条目计算。</p>
+        <p class="pattern-hint" data-i18n="patterns.hint">选择任一柱条，筛选下方示例。</p>
+      </div>
+
+      <div class="chart-grid">
+        <section class="chart-panel" aria-labelledby="noun-chart-title">
+          <div class="chart-heading">
+            <p class="chart-kicker" data-i18n="patterns.sources">高频来源</p>
+            <h3 id="noun-chart-title" data-i18n="chart.nouns">英语名词</h3>
+          </div>
+          <div class="chart-body" id="noun-chart"></div>
+        </section>
+
+        <section class="chart-panel" aria-labelledby="verb-chart-title">
+          <div class="chart-heading">
+            <p class="chart-kicker" data-i18n="patterns.outcomes">高频落点</p>
+            <h3 id="verb-chart-title" data-i18n="chart.verbs">中文动词</h3>
+          </div>
+          <div class="chart-body" id="verb-chart"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="site-section about-section" id="about" aria-labelledby="about-title">
+      <div class="section-heading">
+        <p class="eyebrow" data-i18n="about.eyebrow">03 / 阅读语料</p>
+        <div>
+          <h2 id="about-title" data-i18n="about.title">文件里有什么，页面就呈现什么。</h2>
+          <p data-i18n="about.intro">这里是一座检索与阅读的索引，而不是新的翻译层。</p>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <div class="method-copy">
+          <p class="drop-cap" data-i18n="about.method1">每条记录将一句英文与其中文译文并列，并标出焦点英语名词以及承载其动作的中文动词。</p>
+          <p data-i18n="about.method2">页面逐字呈现原文，包括标点以及繁简混用的中文。拉丁字母搜索不区分大小写，中文字符按原样匹配。统计与频次图表按条目计数，重复句子仍会显示，并通过来源 ID 加以区分。</p>
+          <p data-i18n="about.method3">本界面不添加修订、规范化、推译或语言学判断。</p>
+        </div>
+
+        <aside class="source-card" aria-labelledby="source-title">
+          <p class="eyebrow" data-i18n="source.eyebrow">来源数据</p>
+          <h3 id="source-title" data-i18n="source.title">NVAtlas AI Agent 语料</h3>
+          <p data-i18n="source.meta">500 条记录 · CSV · UTF-8</p>
+          <a class="button button-primary" href="NVAtlas-AI-Agent.csv" download data-i18n="source.download">下载 CSV</a>
+          <p class="license-note" data-i18n="source.license">本界面不对源语料的许可状态作任何声明。</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <a class="brand footer-brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">NV</span>
+        <span class="brand-word">Atlas</span>
+      </a>
+      <p data-i18n="footer.description">用于语言学细读的平行语料。</p>
+    </div>
+    <p class="footer-meta">英文 / 中文 · 500 条记录</p>
+  </footer>
+
+  <noscript>
+    <p class="noscript-message">此语料浏览器需要启用 JavaScript。源 CSV 文件仍可下载。</p>
+  </noscript>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
